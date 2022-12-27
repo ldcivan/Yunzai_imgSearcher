@@ -7,3 +7,13 @@
 <code>cnpm install axios</code>
 
 需要在js内配置api密钥，配置方法可参考js内注释；您也可以在js里调整返回结果的数量。
+
+## 其他
+感谢：
+
+* [官方Yunzai-Bot-V3](https://github.com/Le-niao/Yunzai-Bot) : [Gitee](https://gitee.com/Le-niao/Yunzai-Bot)
+  / [Github](https://github.com/Le-niao/Yunzai-Bot)
+* [椰羊Plugin](https://github.com/yeyang52/yenai-plugin) : [Gitee](https://gitee.com/yeyang52/yenai-plugin)
+  / [Github](https://github.com/yeyang52/yenai-plugin)
+* [锅巴Plugin](https://github.com/guoba-yunzai/guoba-plugin) : [Gitee](https://gitee.com/guoba-yunzai/guoba-plugin)
+  / [Github](https://github.com/guoba-yunzai/guoba-plugin)
