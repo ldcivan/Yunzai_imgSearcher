@@ -22,8 +22,8 @@ export class example extends plugin {
                     fnc: 'pic_search'
                 },
                 {
-                  reg: "",
-                  fnc: 'searcher_mark'
+                  reg: "^#?(搜|识)图帮助$",
+                  fnc: 'pic_search_help'
                 }
             ]
         })
@@ -115,5 +115,8 @@ export class example extends plugin {
       .replace(/___+/, `<title color="#777777" size="26">${title}</title>`)
 
     return forwardMsg
+  }
+  async pic_search_help(e){
+      await e.reply("回复图片“#搜图”或带图发送“#搜图”即可查询图片来源")
   }
 }
