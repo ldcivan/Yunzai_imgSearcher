@@ -1,11 +1,11 @@
 import plugin from '../../lib/plugins/plugin.js'
 import { segment } from "oicq";
 import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+const require_ = createRequire(import.meta.url);
 
-const axios = require('axios');
+const axios = require_('axios');
 
-var ApiKey = "7ce78473c1295ce4c78c741a1fc4e45f4ebdec3c" //https://saucenao.com/user.php?page=search-api 处获取
+var ApiKey = "5f70aa77c38361f679b06d5499bc7185aba2d9ad" //https://saucenao.com/user.php?page=search-api 处获取
 var numres = 3 //返回几个结果（不建议大于5）
 var imageURL = ""
 
@@ -61,18 +61,28 @@ export class example extends plugin {
         })
         
         var jsonobj = response.data;
+        //await this.reply(JSON.stringify(jsonobj))
         let message = []
         for (var i = 0;i < numres;i++){
-            message.push(`${i+1}.相似度：${JSON.stringify(jsonobj.results[i].header.similarity)}%\n链接：${JSON.stringify(jsonobj.results[i].data.ext_urls[0])}\n`)
+            message.push(`${i+1}.相似度：${JSON.stringify(jsonobj.results[i].header.similarity)}%\n链接/作品名称：`)
+            if(jsonobj.results[i].data.ext_urls){
+                for(var j = 0;j < Object.keys(jsonobj.results[i].data.ext_urls).length;j++)
+                    message.push(`${JSON.stringify(jsonobj.results[i].data.ext_urls[0])},\n`)
+            }
+            if(jsonobj.results[i].data.eng_name)
+                message.push(`${JSON.stringify(jsonobj.results[i].data.eng_name)},\n`)
+            if(jsonobj.results[i].data.jp_name)
+                message.push(`${JSON.stringify(jsonobj.results[i].data.jp_name)},\n`)
             message.push(segment.image(jsonobj.results[i].header.thumbnail.toString().replaceAll(`\"`, ``).trim()))
         }
+        message.push(`以下是原始数据，可供参考：\n${JSON.stringify(jsonobj)}`)
         
         let forwardMsg = await this.makeForwardMsg(`以下是使用saucenao引擎的搜图结果：`, message)
         await this.reply(forwardMsg)
         //await this.reply(JSON.stringify(jsonobj.results));
         //await this.reply("诶呀，作者还在写，接口还没接上捏");
         //await this.reply(segment.image(e.img[0]));
-        //await this.reply("图图还给你~");
+        await this.reply("以上是所有结果~如果上头没东西，可能是bot被风控了~~");
     }
     
     async cancel(e){
