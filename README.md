@@ -2,12 +2,13 @@
 基于saucenao api的识图插件，为Yunzai-Bot设计
 
 ## 使用方法
-扔进/plugins后，再Yunzai-Bot根目录上运行安装axios（用哪个参照你当时装Yunzai依赖的方法）：
+<del>扔进/plugins后，再Yunzai-Bot根目录上运行安装axios（用哪个参照你当时装Yunzai依赖的方法）：</del>
 
-<code>cnpm install axios</code>或者<code>npm install axios</code>
+<del><code>cnpm install axios</code>或者<code>npm install axios</code></del>
 
-或者参考这个安装方法>>>https://github.com/ldcivan/Yunzai_imgSearcher/issues/1
+<del>或者参考这个安装方法>>>https://github.com/ldcivan/Yunzai_imgSearcher/issues/1</del>
 
+不用依赖了，扔进/plugins后配置相关参数后重启即可使用
 
 需要在js内配置api密钥，配置方法可参考js内注释；您也可以在js里调整返回结果的数量。
 
