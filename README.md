@@ -8,7 +8,7 @@
 
 <del>或者参考这个安装方法>>>https://github.com/ldcivan/Yunzai_imgSearcher/issues/1</del>
 
-不用依赖了，扔进/plugins后配置相关参数后重启即可使用
+不用依赖了，扔进/plugins/example后配置相关参数后重启即可使用
 
 需要在js内配置api密钥，配置方法可参考js内注释；您也可以在js里调整返回结果的数量。
 
