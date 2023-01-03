@@ -7,6 +7,7 @@ const axios = require_('axios');
 
 var ApiKey = "5f70aa77c38361f679b06d5499bc7185aba2d9ad" //https://saucenao.com/user.php?page=search-api 处获取
 var numres = 3 //返回几个结果（不建议大于5）
+var safemode = 1
 var imageURL = ""
 
 
@@ -15,7 +16,7 @@ export class example extends plugin {
         super({
             name: 'pic_search',
             event: 'message',
-            priority: 50000,
+            priority: 5000,
             rule: [
                 {
                     reg: '^#?(搜|识)图$',
@@ -69,13 +70,19 @@ export class example extends plugin {
                 for(var j = 0;j < Object.keys(jsonobj.results[i].data.ext_urls).length;j++)
                     message.push(`${JSON.stringify(jsonobj.results[i].data.ext_urls[0])},\n`)
             }
-            if(jsonobj.results[i].data.eng_name)
+            if(jsonobj.results[i].data.eng_name){
                 message.push(`${JSON.stringify(jsonobj.results[i].data.eng_name)},\n`)
-            if(jsonobj.results[i].data.jp_name)
+            }
+            if(jsonobj.results[i].data.jp_name){
                 message.push(`${JSON.stringify(jsonobj.results[i].data.jp_name)},\n`)
-            message.push(segment.image(jsonobj.results[i].header.thumbnail.toString().replaceAll(`\"`, ``).trim()))
+            }
+            if (safemode == 0)
+                message.push(segment.image(JSON.stringify(jsonobj.results[i].header.thumbnail).replaceAll(`\"`, ``)))
+            if (safemode == 1)
+                message.push(`搜索结果图样：${JSON.stringify(jsonobj.results[i].header.thumbnail).replaceAll(`\"`, ``)}`)
         }
-        message.push(`以下是原始数据，可供参考：\n${JSON.stringify(jsonobj)}`)
+        //message.push(`以下是原始数据，可供参考：\n${JSON.stringify(jsonobj.results)}`)
+        //this.reply(`以下是原始数据，可供参考：\n${JSON.stringify(jsonobj.results)}`)
         
         let forwardMsg = await this.makeForwardMsg(`以下是使用saucenao引擎的搜图结果：`, message)
         await this.reply(forwardMsg)
