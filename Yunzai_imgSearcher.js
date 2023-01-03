@@ -1,9 +1,9 @@
 import plugin from '../../lib/plugins/plugin.js'
 import { segment } from "oicq";
 import { createRequire } from "module";
-const require_ = createRequire(import.meta.url);
+//const require_ = createRequire(import.meta.url);
 
-const axios = require_('axios');
+//const axios = require_('axios');
 
 var ApiKey = "5f70aa77c38361f679b06d5499bc7185aba2d9ad" //https://saucenao.com/user.php?page=search-api 处获取
 var numres = 3 //返回几个结果（不建议大于5）
@@ -57,12 +57,15 @@ export class example extends plugin {
             return false;
         }
         imageURL=e.img[0];
-        const response = await axios.get('https://saucenao.com/search.php?db=999&output_type=2&numres='+numres+'&api_key='+ApiKey+'&url='+imageURL,{
-            headers: { "Accept-Encoding": "gzip,deflate,compress" }
-        })
+        //const response = await axios.get('https://saucenao.com/search.php?db=999&output_type=2&numres='+numres+'&api_key='+ApiKey+'&url='+imageURL,{headers: { "Accept-Encoding": "gzip,deflate,compress" }})
+        //var jsonobj = response.data;
         
-        var jsonobj = response.data;
-        //await this.reply(JSON.stringify(jsonobj))
+        var url = 'https://saucenao.com/search.php?db=999&output_type=2&numres='+numres+'&api_key='+ApiKey+'&url='+imageURL
+        const response = await fetch(url, { "method": "GET" });
+        var jsonobj = await response.json();
+        
+        await this.reply(JSON.stringify(jsonobj.results))
+        
         let message = []
         let image = []
         for (var i = 0;i < numres;i++){
