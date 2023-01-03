@@ -64,7 +64,7 @@ export class example extends plugin {
         const response = await fetch(url, { "method": "GET" });
         var jsonobj = await response.json();
         
-        await this.reply(JSON.stringify(jsonobj.results))
+        //await this.reply(JSON.stringify(jsonobj.results))
         
         let message = []
         let image = []
