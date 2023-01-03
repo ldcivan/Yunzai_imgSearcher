@@ -7,7 +7,7 @@ const axios = require_('axios');
 
 var ApiKey = "5f70aa77c38361f679b06d5499bc7185aba2d9ad" //https://saucenao.com/user.php?page=search-api 处获取
 var numres = 3 //返回几个结果（不建议大于5）
-var safemode = 1
+var safemode = 0
 var imageURL = ""
 
 
@@ -64,6 +64,7 @@ export class example extends plugin {
         var jsonobj = response.data;
         //await this.reply(JSON.stringify(jsonobj))
         let message = []
+        let image = []
         for (var i = 0;i < numres;i++){
             message.push(`${i+1}.相似度：${JSON.stringify(jsonobj.results[i].header.similarity)}%\n链接/作品名称：`)
             if(jsonobj.results[i].data.ext_urls){
@@ -77,14 +78,15 @@ export class example extends plugin {
                 message.push(`${JSON.stringify(jsonobj.results[i].data.jp_name)},\n`)
             }
             if (safemode == 0)
-                message.push(segment.image(JSON.stringify(jsonobj.results[i].header.thumbnail).replaceAll(`\"`, ``)))
+            image.push(`\n${i+1}.\n`)
+                image.push(segment.image(JSON.stringify(jsonobj.results[i].header.thumbnail).replaceAll(`\"`, ``)))
             if (safemode == 1)
                 message.push(`搜索结果图样：${JSON.stringify(jsonobj.results[i].header.thumbnail).replaceAll(`\"`, ``)}`)
         }
         //message.push(`以下是原始数据，可供参考：\n${JSON.stringify(jsonobj.results)}`)
         //this.reply(`以下是原始数据，可供参考：\n${JSON.stringify(jsonobj.results)}`)
         
-        let forwardMsg = await this.makeForwardMsg(`以下是使用saucenao引擎的搜图结果：`, message)
+        let forwardMsg = await this.makeForwardMsg(`以下是使用saucenao引擎的搜图结果：`, message, image)
         await this.reply(forwardMsg)
         //await this.reply(JSON.stringify(jsonobj.results));
         //await this.reply("诶呀，作者还在写，接口还没接上捏");
@@ -96,7 +98,7 @@ export class example extends plugin {
         await e.reply("不对啊，这也没图啊，你还是带个图片再说吧！");
     }
     
-    async makeForwardMsg (title, msg) {
+    async makeForwardMsg (title, msg, img) {
     let nickname = Bot.nickname
     if (this.e.isGroup) {
       let info = await Bot.getGroupMemberInfo(this.e.group_id, Bot.uin)
@@ -115,6 +117,10 @@ export class example extends plugin {
       {
         ...userInfo,
         message: msg
+      },
+      {
+        ...userInfo,
+        message: img
       }
     ]
 
