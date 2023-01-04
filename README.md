@@ -2,7 +2,7 @@
 基于saucenao api的识图插件，为Yunzai-Bot设计
 
 ## 使用方法
-<del>扔进/plugins后，再Yunzai-Bot根目录上运行安装axios（用哪个参照你当时装Yunzai依赖的方法）：</del>
+<del>扔进/plugins/example后，再Yunzai-Bot根目录上运行安装axios（用哪个参照你当时装Yunzai依赖的方法）：</del>
 
 <del><code>cnpm install axios</code>或者<code>npm install axios</code></del>
 
