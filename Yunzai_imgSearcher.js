@@ -1,9 +1,10 @@
 import plugin from '../../lib/plugins/plugin.js'
 import { segment } from "oicq";
 import { createRequire } from "module";
+import fetch from "node-fetch"
 //const require_ = createRequire(import.meta.url);
 
-//const axios = require_('axios');
+//const fetch = require_('node-fetch');
 
 var ApiKey = "5f70aa77c38361f679b06d5499bc7185aba2d9ad" //https://saucenao.com/user.php?page=search-api 处获取
 var numres = 3 //返回几个结果（不建议大于5）
@@ -21,6 +22,10 @@ export class example extends plugin {
                 {
                     reg: '^#?(搜|识)图$',
                     fnc: 'pic_search'
+                },
+                {
+                  reg: "^#?取直链$",
+                  fnc: 'pic_link'
                 },
                 {
                   reg: "^#?(搜|识)图帮助$",
@@ -97,6 +102,48 @@ export class example extends plugin {
         await this.reply("以上是所有结果~如果上头没东西，可能是bot被风控了~~");
     }
     
+    async pic_link(e) {
+    //await e.reply("正在转直链……");
+    if (e.source) {
+      // console.log(e);
+      let reply;
+      if (e.isGroup) {
+        reply = (await e.group.getChatHistory(e.source.seq, 1)).pop()?.message;
+      } else {
+        reply = (await e.friend.getChatHistory(e.source.time, 1)).pop()?.message;
+      }
+      if (reply) {
+        for (let val of reply) {
+          if (val.type == "image") {
+            e.img = [val.url];
+            break;
+          }
+        }
+      }
+    }
+    if (!e.img) {
+        await this.cancel(e);
+        // return true;
+        return false;
+    }
+    
+    let message = []
+    let image = []
+    
+    for (var i = 0;i < e.img.length;i++){
+        message.push(`${i+1}.${e.img[i]}\n`)
+    }
+    
+    image.push(`已获取${i+1}条直链\n`)
+    
+    let forwardMsg = await this.makeForwardMsg(`以下是您需要的直链：`, message, image)
+    await this.reply(forwardMsg)
+    //await this.reply(JSON.stringify(jsonobj.results));
+    //await this.reply("诶呀，作者还在写，接口还没接上捏");
+    //await this.reply(segment.image(e.img[0]));
+    await this.reply("以上是所有结果~如果上头没东西，可能是bot被风控了~~");
+}
+    
     async cancel(e){
         await e.reply("不对啊，这也没图啊，你还是带个图片再说吧！");
     }
@@ -143,6 +190,6 @@ export class example extends plugin {
     return forwardMsg
   }
   async pic_search_help(e){
-      await e.reply("回复图片“#搜图”或带图发送“#搜图”即可查询图片来源")
+      await e.reply("回复图片“#搜图”或带图发送“#搜图”即可查询图片来源\n回复图片“#取直链”或带图发送“#取直链”即可获取图片直链")
   }
 }
