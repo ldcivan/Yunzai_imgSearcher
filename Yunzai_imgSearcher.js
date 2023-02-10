@@ -3,6 +3,8 @@ import { segment } from "oicq";
 import { createRequire } from "module";
 import fetch from "node-fetch"
 import fs from 'fs'
+import lodash from 'lodash'
+import common from '../../lib/common/common.js'
 //const require_ = createRequire(import.meta.url);
 
 //const fetch = require_('node-fetch');
@@ -210,6 +212,7 @@ export class example extends plugin {
         ];
 
         await this.e.reply(msg);
+        await this.e.reply("您也可以在这查看该片段的视讯资料：\n"+resultall.video)
 
         if (!resultall.video) {
             return true;
@@ -232,7 +235,7 @@ export class example extends plugin {
     }
     async getDetails(id) {
 
-        let query = `{Media (id:${id}) {coverImage {large}startDate {year,month,day}endDate {year,month,day}season,id,seasonYear,type,format,status,episodes,synonyms}}`;
+        let query = `{Media (id:${id}) {id coverImage {large}startDate {year,month,day}endDate {year,month,day}season,seasonYear,type,format,status,episodes,synonyms}}`;
         let url = 'https://trace.moe/anilist/';
         let response = await fetch(url, {
             method: "POST",
