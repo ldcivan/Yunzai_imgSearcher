@@ -103,9 +103,9 @@ export class example extends plugin {
             }
             if (safemode == 0)
             image.push(`\n${i+1}.\n`)
-                image.push(segment.image(JSON.stringify(jsonobj.results[i].header.thumbnail).replaceAll(`\"`, ``)))
+                image.push(segment.image(jsonobj.results[i].header.thumbnail))
             if (safemode == 1)
-                image.push(`搜索结果图样：${JSON.stringify(jsonobj.results[i].header.thumbnail).replaceAll(`\"`, ``)}`)
+                image.push(`搜索结果图样：${jsonobj.results[i].header.thumbnail}`)
         }
         //message.push(`以下是原始数据，可供参考：\n${JSON.stringify(jsonobj.results)}`)
         //this.reply(`以下是原始数据，可供参考：\n${JSON.stringify(jsonobj.results)}`)
