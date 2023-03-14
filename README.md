@@ -1,6 +1,8 @@
 # Yunzai_imgSearcher
 基于saucenao api的识图插件，为Yunzai-Bot设计
 
+# 去装个yenai-plugin吧！他们那个方便多啦！
+
 ## 使用方法
 <del>扔进/plugins/example后，再Yunzai-Bot根目录上运行安装axios（用哪个参照你当时装Yunzai依赖的方法）：</del>
 
